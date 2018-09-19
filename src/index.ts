@@ -30,9 +30,13 @@ export function createSocketServer(port: number, options?: SocketControllersOpti
 function createExecutor(io: any, options: SocketControllersOptions): void {
     const executor = new SocketControllerExecutor(io);
 
-    // second import all controllers and middlewares and error handlers
+    // second import all controllers
     if (options && options.controllers && options.controllers.length)
         importClassesFromDirectories(options.controllers);
+
+    // second import all middlewares
+    if (options && options.middlewares && options.middlewares.length)
+        importClassesFromDirectories(options.middlewares);
 
     if (options.useClassTransformer !== undefined) {
         executor.useClassTransformer = options.useClassTransformer;
